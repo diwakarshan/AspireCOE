@@ -1,62 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automobile Login</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automobile Login</title>
+<style>
+    body {
+        background-image: url(img.jpg);
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        background-color: #a4031b;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+    }
+    .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+    .login-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    .login-container input[type="submit"] {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .login-container input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    nav ul {
+    background-color: white;
+    color:#ffffff;
+    font-weight: bold;
+    padding: 10px;
+    list-style-type: none;
+    text-align: center;
+}
+
+nav ul li {
+    color:#ffffff;
+    font-weight: bold;
+    padding: 10px;
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Automobile Portal</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
-    <div class="container">
-        <form class="login-form">
-            <h2>Welcome to Automobile Portal</h2>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password">
-            </div>
-            <button type="submit">Login</button>
-            <div class="extra-content">
-                <p>New to our portal? <a href="#">Sign up here</a></p>
-                <p>Forgot your password? <a href="#">Reset here</a></p>
-            </div>
-        </form>
-    </div>
-    <div class="service">
-    <section id="services">
-        <h2>Our Services</h2>
-        <nav>
-        <ul>
-            <li><a href="">Car Sales</a></li>
-            <li><a href="">Car Repairs</a></li>
-            <li><a href="">Car Rentals</a></li>
-            <li><a href="">Customization</a></li>
-        </ul>
-        </nav>
-    </section>
-    </div>
-    <div class ="about">
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We are dedicated to providing high-quality automobiles and exceptional customer service.</p>
-    </section>
-    </div>
-    <footer>
-        <p>&copy; 2024 Automobile Portal. All rights reserved.</p>
-    </footer>
+
+<div class="header">
+    <h1>Automobile Management System</h1>
+</div>
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="login-container">
+    <h2>Log in to your account</h2>
+    <form action="#" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
 </body>
 </html>
