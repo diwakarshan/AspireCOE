@@ -1,4 +1,6 @@
 use developmentDatabase;
+
+/*query 1 */
 create table Programmer(name varchar(8) not null, dob date not null, doj date not null, sex varchar(6) not null, prof1 varchar(8), prof2 varchar(8), salary int(4) not null);
 select * from Programmer;
 alter table programmer add column pid int after name ;
@@ -19,6 +21,7 @@ SELECT *, DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), dob)), '%Y') + 0 AS age
 FROM Programmer;
 create table studies(name varchar(8),splace varchar(9),course varchar(5), ccost varchar(5));
 truncate table studies;
+select * from studies;
 insert into studies values("hari","vellore","DCS",8990);
 insert into studies values("gowtham","Tirupur","ECE",6699);
 insert into studies values("Harini","Chennai","DCS",6699);
@@ -70,6 +73,9 @@ select p.name,p.salary,p.sex from programmer p join software s on p.pid=s.pid wh
 select title,scost,dcost,ceil((dcost-scost)) as diff from software order by diff desc;
 select name,doj,dob from programmer where month(dob)=month(doj);
 SELECT dev_in AS language, COUNT(dev_in) AS number_of_packages FROM Software GROUP BY dev_in;
+
+/*Query-2*/
+
 select dev_in,count(*) from software group by dev_in;
 select p.name,count(s.dev_in) from programmer p join software s on p.pid=s.pid group by p.name;
 select sex,count(sex) as count from programmer group by sex;
@@ -100,3 +106,79 @@ select dev_in,count(*) as count from software where dcost<10000 group by dev_in;
 select avg(dcost)-avg(scost) from software group by dev_in;
 select sum(scost) as total_scost,sum(dcost) as total_dcost, sum(dcost)-sum(scost) as amount_tobe_recovered from software group by dev_in;
 select max(salary),min(salary),avg(salary) from programmer where salary>2000;
+
+/*Query 3 */
+
+select p.name,p.salary from programmer p join software s on p.pid=s.pid where s.dev_in ="pascal" order by p.salary desc limit 1;
+select p.name,p.salary from programmer p join software s on p.pid=s.pid where p.sex="female" order by p.salary desc limit 1;
+select prof1 as language, name from programmer group by language having max(salary);
+select name,doj from programmer order by doj limit 1;
+select name,doj from programmer order by doj desc limit 1;
+select prof1 as language from programmer group by language having count(*)=1;
+select name,dob from programmer order by dob desc limit 1;
+select splace,count(*) as students from studies group by splace order by students desc limit 1;
+SELECT name FROM Programmer WHERE sex = 'female' AND salary > 3000 AND prof1 NOT IN ('C', 'C++', 'Oracle', 'Dbase') AND prof2 NOT IN ('C', 'C++', 'Oracle', 'Dbase');
+select name,ccost from studies order by ccost desc limit 1;
+select ceil(avg(ccost)) from studies;
+select course from studies group by course having abs(avg(ccost)-(select avg(ccost) from studies))<=1000;
+select name,title,dcost from software order by dcost desc limit 1;
+select name,title,dcost from software order by dcost limit 1;
+select name,title,sold from software order by sold limit 1;
+select name,title,sold from software order by sold limit 1;
+select dev_in from software order by sold desc limit 1;
+select sold from software order by (scost-dcost) asc limit 1;
+select scost from software where dev_in ="pascal" order by scost limit 1;
+select dev_in from software group by dev_in order by count(*) desc limit 1;
+select name from software group by name order by count(*) desc limit 1;
+select name from software order by scost desc limit 1;
+select name from software group by name having sum(sold)<(select avg(sold) from software);
+SELECT p.name FROM Programmer p JOIN (SELECT MAX(salary) AS max_salary_male FROM Programmer WHERE sex = 'male') AS max_salary_male ON p.sex = 'female' AND p.salary > max_salary_male;
+select prof1 from programmer group by prof1 order by count(*) desc limit 1;
+select name from software group by name having sum(dcost)>(2*sum(scost));
+SELECT dev_in AS Programming_Language, name AS Programmer_Name, title AS Cheapest_Package, dcost AS Package_Cost
+FROM Software s
+WHERE (dev_in, dcost) IN (
+    SELECT dev_in, MIN(dcost)
+    FROM Software
+    GROUP BY dev_in
+);
+select name from programmer where sex='m' and year(dob)=1996 order by dayofyear(dob) asc limit 1;
+select distinct name,title as highest_selling_packaage,dev_in from software where sold=(select max(sold) from software) union all select distinct name,title as lowest_selling_packaage,dev_in from software where sold=(select min(sold) from software);
+select name from programmer where sex='f' and year(doj)=2022 order by dayofyear(doj) desc limit 1;
+select year(dob),count(*) as no_programmers from programmer group by year(dob) order by no_programmers desc limit 1;
+select month(doj),count(*) as no_programmers from programmer group by month(doj) order by no_programmers desc limit 1;
+SELECT language, COUNT(*) AS total_programmers FROM (SELECT prof1 AS language FROM programmer UNION ALL SELECT prof2 AS language FROM programmer) AS all_languages GROUP BY language
+ORDER BY total_programmers DESC
+limit 1;
+select name from programmer where sex='m' and salary<(select avg(salary) from programmer where sex='f');
+
+/*query 4 */
+
+select * from programmer where salary in(select salary from programmer group by salary having count(*)>1);
+select * from software where name in(select name from programmer where sex='male' and salary>3000);
+select * from software where dev_in='pascal' and name in(select name from programmer where sex='female');
+select * from programmer where doj<str_to_date('1990-01-01','yyyy-mm-dd');
+select * from software where dev_in='java' and name in(select name from programmer where sex='female' and name in(select name from studies where splace='pragathi'));
+select p.name,s.splace,count(s.name) as no_packages from programmer p left join studies s on p.name=s.name group by p.name,s.splace;
+select s.* from software s join programmer p on s.name=p.name join studies st on s.name=st.name where s.dev_in='dbase' and p.sex='m' and st.splace=(select splace from studies group by splace order by count(*) desc limit 1);
+select * from software where name in (select name from programmer where sex = 'm' and extract(year from dob) < 1965) or name in (select name from programmer where sex = 'f' and extract(year from dob) > 1975);
+select * from software where dev_in not in (select prof1 from programmer);
+select * from software where dev_in not in (select prof1 from programmer) and dev_in not in (select prof2 from programmer);
+select * from software where name in (select name from programmer where sex = 'm' and name in(select name from studies where splace='sabhari'));
+select name from programmer where name not in (select name from software);
+select * from programmer where doj in (select doj from programmer group by doj having count(*) > 1);
+select * from programmer where prof2 in (select prof2 from programmer group by prof2 having count(*) > 1);
+select p.splace, sum(s.sold * s.scost) as total_sales_value from studies p join software s on p.name = s.name group by p.splace;
+select splace from studies where name in(select name from software order by scost desc )limit 1;
+select distinct p.prof1 from programmer p where p.prof1 not in (select dev_in from software) union select distinct p.prof2 from programmer p where p.prof2 not in (select dev_in from software);
+select p.name,p.salary,st.course from programmer p join software s on p.name=s.name join studies st on p.name=st.name where s.scost=(select scost from software order by (scost*sold) desc limit 1);
+select p.name, (s.ccost / p.salary) *12 as months_to_recover from programmer p join studies s on p.name=s.name;
+select * from software where name in (select name from programmer where year(current_date()) - year(doj) < 3) order by scost desc limit 1;
+select avg(salary) from programmer where name in (select name from software group by name having sum(sold * scost) > 50000);
+select count(*) from software where name in (select name from studies where splace = (select splace from studies where ccost=(select min(ccost) from studies)));
+select count(*) from software where name in (select name from programmer where sex = 'f' and salary > (select max(salary) from programmer where sex = 'm'));
+select count(*) from software where name in (select name from studies where splace = 'bdps' and name in (select name from programmer order by doj desc));
+select s.name,st.splace from software s join studies st where st.name not in (select name from software);
+select p.prof1, count(*) as num_programmers, (select count(*) from software s where s.dev_in = p.prof1) as num_packages from programmer p group by p.prof1;
+select p.name, count(s.name) as num_packages from programmer p left join software s on p.name = s.name group by p.name;
+select p.* from programmer p join studies s on p.name=s.name where splace = 's.s.i.l.';
