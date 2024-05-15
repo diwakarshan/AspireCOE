@@ -1,0 +1,32 @@
+<p>product works!</p>
+Choose Category:<select [(ngModel)]="categoryInput">
+    <option>SavingsAccount</option>
+    <option>BusinessAccount</option>
+    <option>SalaryAccount</option>
+    
+</select>
+<table>
+    <thead>
+        <tr>
+           
+            <th>Account HolderName</th>
+            <th>Account Number</th>
+            <th>Type of Account</th>
+            <th>Amount</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @for (bank of accDetails; track bank) {
+           
+            <tr>
+                @if(bank.typeOfAcc==categoryInput){
+                <td> {{bank.accHolderName}} </td>
+                <td> {{bank.accNo}} </td>
+                <td> {{bank.typeOfAcc}} </td>
+                <td> {{bank.amount}} </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
